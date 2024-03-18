@@ -18,5 +18,5 @@
 
 ### Authentication
 Mechanism: JWT
-Package: jsonwebtoken
+Package: jsonwebtoken, JOI
 Framework: Vue.js, Next.js
