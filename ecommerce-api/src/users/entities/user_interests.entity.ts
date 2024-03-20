@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from 'src/categories/entities/category.entity';
 
 @Entity('user_interests')
 export class UserInterests {
-  @Column('uuid', { primary: true }) // Use UUID for primary key
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')
@@ -13,17 +13,19 @@ export class UserInterests {
   @Column('uuid')
   category_id: string;
 
-  @Column('timestamp', { default: new Date() })
-  created_date: Date = new Date();
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_date: Date;
 
-  @Column('timestamp', { default: new Date() })
-  updated_at: Date = new Date();
-
-  @ManyToOne(() => User, (user) => user.users, { lazy: true })
-  users: User;
-
-  @ManyToOne(() => Category, (category) => category.user_interests, {
-    lazy: true,
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
-  categories: Category;
+  updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.userInterests)
+  user: User; // Many-to-One relationship with User
+
+  @ManyToOne(() => Category, (category) => category.userInterests)
+  category: Category; // Many-to-One relationship with Category
 }

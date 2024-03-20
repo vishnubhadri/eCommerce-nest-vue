@@ -1,27 +1,24 @@
 import { UserInterests } from 'src/users/entities/user_interests.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('categories')
 export class Category {
-  @Column('uuid', { primary: true }) // Use UUID for primary key
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 25 })
+  @Column('varchar', { length: 100 })
   name: string;
 
-  @Column('varchar', { length: 255 })
-  description: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_date: Date;
 
-  @Column('timestamp', { default: new Date() })
-  created_date: Date = new Date();
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 
-  @Column('timestamp', { default: new Date() })
-  updated_at: Date = new Date();
-
-  @OneToMany(
-    () => UserInterests,
-    (userInterests) => userInterests.categories,
-    { eager: true },
-  )
-  user_interests: UserInterests[];
+  @OneToMany(() => UserInterests, (userInterests) => userInterests.category)
+  userInterests: UserInterests[];
 }

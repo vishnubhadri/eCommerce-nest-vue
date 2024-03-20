@@ -1,28 +1,30 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserInterests } from './user_interests.entity';
 
-@Entity('user')
+@Entity('users')
 export class User {
-  @Column('uuid') // Use UUID for primary key
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 25, primary: true  })
+  @Column({ length: 255 }) // Increased length for potentially longer names
   email: string;
 
-  @Column('varchar', { length: 25 })
+  @Column('varchar', { length: 255 }) // Increased length for potentially longer names
   name: string;
 
   @Column('varchar', { length: 64 })
   password_hash: string;
 
-  @Column('timestamp', { default: new Date() })
-  created_date: Date = new Date();
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_date: Date;
 
-  @Column('timestamp', { default: new Date() })
-  updated_at: Date = new Date();
-
-  @OneToMany(() => UserInterests, (userInterests) => userInterests.users, {
-    eager: true,
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
-  users: UserInterests[];
+  updated_at: Date;
+
+  @OneToMany(() => UserInterests, (userInterests) => userInterests.user)
+  userInterests: UserInterests[];
 }

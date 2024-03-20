@@ -12,9 +12,8 @@
 1. POST /api/auth/signup: Create a new user account.
 2. POST /api/auth/login: Log in an existing user.
 3. GET /api/categories?page=:page: Fetch a list of categories (:page: per page).
-4. GET /api/categories/:id: Fetch a specific category.
-5. PUT /api/users/:userId/interests: Update user interests.
-6. GET /api/users/me: Fetch logged-in user details.
+4. PUT /api/users/:userId/interests: Update user interests.
+5. GET /api/users/me: Fetch logged-in user details.
 
 ### Authentication
 Mechanism: JWT
