@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -80,15 +81,20 @@ export class UsersService {
           const interestPromises = [];
           for (const interest of request.interests) {
             interestPromises.push(
-              manager.insert(UserInterests, {
-                id: uuid.v4(),
-                user: curUser,
-                category_id: interest,
-                user_id: user.user?.id,
-                category: await this.category.findOneOrFail({
-                  where: { id: interest },
-                }),
-              }),
+              manager.upsert(
+                UserInterests,
+                {
+                  id: uuid.v4(),
+                  user: curUser,
+                  category_id: interest,
+                  user_id: user.user?.id,
+                  is_active: true,
+                  category: await this.category.findOneOrFail({
+                    where: { id: interest },
+                  }),
+                },
+                { conflictPaths: ['user_id', 'category_id'] },
+              ),
             );
           }
           return await Promise.all(interestPromises);
@@ -104,6 +110,7 @@ export class UsersService {
   async getInterests(user: UserDto): Promise<CategoryResponse[]> {
     const curUserInterests = await this.userInterests.findBy({
       user_id: user.user.id,
+      is_active: true,
     });
 
     return await this.category
@@ -115,5 +122,23 @@ export class UsersService {
           return { name: c.name, id: c.id };
         }),
       );
+  }
+
+  async deleteInterest(
+    categoryId: string,
+    user: UserDto,
+  ): Promise<{ message: string }> {
+    const message = await this.userInterests.update(
+      {
+        category_id: categoryId,
+        user_id: user.user.id,
+      },
+      { is_active: false },
+    );
+
+    if (message.affected < 1) {
+      throw new NotFoundException();
+    }
+    return { message: 'Interest deleted successfully' };
   }
 }

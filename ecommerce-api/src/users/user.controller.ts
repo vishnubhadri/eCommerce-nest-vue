@@ -7,6 +7,8 @@ import {
   Body,
   Request,
   Get,
+  Delete,
+  Param,
 } from '@nestjs/common';
 
 import { UsersService } from './users.service';
@@ -33,5 +35,15 @@ export class UserController {
   @Get(`/interests`)
   async getInterests(@Request() request: UserDto) {
     return await this.usersService.getInterests(request);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Delete(`/interests/:categoryId`)
+  async deleteInterests(
+    @Param() params: { categoryId: string },
+    @Request() user: UserDto,
+  ) {
+    return await this.usersService.deleteInterest(params.categoryId, user);
   }
 }

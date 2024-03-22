@@ -5,7 +5,7 @@
 
 1. Users table: id (Primary Key), email (Unique), password_hash, created_at, updated_at
 2. Categories table: id (Primary Key), name, description
-3. UserInterests table: id (Primary Key), user_id (Foreign Key), category_id (Foreign Key), selected (Boolean)
+3. UserInterests table: id (Primary Key), user_id (Foreign Key), category_id (Foreign Key), is_active (Boolean)
 
 ### API Endpoints:
 

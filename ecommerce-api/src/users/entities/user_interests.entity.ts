@@ -1,8 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Unique,
+} from 'typeorm';
 import { User } from './user.entity';
 import { Category } from 'src/categories/entities/category.entity';
 
 @Entity('user_interests')
+@Unique(['user_id', 'category_id'])
 export class UserInterests {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -12,6 +19,9 @@ export class UserInterests {
 
   @Column('uuid')
   category_id: string;
+
+  @Column('boolean')
+  is_active: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date: Date;
