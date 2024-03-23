@@ -12,7 +12,7 @@ export class TypeOrmConfiguration implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
-      type: 'mongodb',
+      type: 'postgres',
       host: process.env.DATABASE_HOST,
       port: 5432,
       username: process.env.DATABASE_USER,
