@@ -21,6 +21,7 @@ export class TypeOrmConfiguration implements TypeOrmOptionsFactory {
       autoLoadEntities: true,
       entities: [Category, User, UserInterests],
       synchronize: true,
+      ssl:true
     };
   }
 }
