@@ -11,6 +11,7 @@ export class TypeOrmConfiguration implements TypeOrmOptionsFactory {
   configService: ConfigService;
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
+    console.log(process.env)
     return {
       type: 'postgres',
       host: process.env.DATABASE_HOST,
