@@ -13,6 +13,7 @@ import { CategoriesModule } from './categories/categories.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.development'],
+      ignoreEnvFile:true,
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfiguration,

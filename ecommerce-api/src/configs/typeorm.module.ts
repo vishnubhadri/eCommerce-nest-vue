@@ -12,12 +12,12 @@ export class TypeOrmConfiguration implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
-      type: this.configService.get<any>('DATABASE_TYPE'),
-      host: this.configService.get<string>('DATABASE_HOST'),
-      port: this.configService.get<number>('DATABASE_HOST_PORT'),
-      username: this.configService.get<string>('DATABASE_USER'),
-      password: this.configService.get<string>('DATABASE_PASSWORD'),
-      database: this.configService.get<string>('DATABASE_DB'),
+      type: 'mongodb',
+      host: process.env.DATABASE_HOST,
+      port: 5432,
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_DB,
       autoLoadEntities: true,
       entities: [Category, User, UserInterests],
       synchronize: true,
