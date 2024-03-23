@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, defineModel } from 'vue'
+import { ref,  defineModel } from 'vue'
 import Password from '@/components/Password.vue'
-import router from '../router'
+import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
-import { Validation } from '../common/Validation'
+import { Validation } from '@/common/Validation'
 import { api } from '@/common/Axios'
 
 const email = defineModel('email')

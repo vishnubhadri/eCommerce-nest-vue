@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import axios from 'axios'
+import { ref, computed } from 'vue'
 import router from '../router'
 import { useAuthStore } from '@/stores/auth' // Assuming you have an Auth store
-import { Categories, Category } from '../common/Categories'
+import { Categories, Category } from '@/common/Categories'
 import { api } from '@/common/Axios'
 
 const interests = ref([])
