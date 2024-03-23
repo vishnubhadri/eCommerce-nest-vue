@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import router from '../router'
 import { useAuthStore } from '@/stores/auth' // Assuming you have an Auth store
-import { Categories, Category } from '@/common/Categories'
+import {Categories, Category} from '@/interface/Categories'
 import { api } from '@/common/Axios'
 
 const interests = ref([])
@@ -16,7 +16,7 @@ const interestsToSend = ref([])
 const recentSelectedInterests = ref([])
 const userSelectedInterests = ref([])
 
-function fetchInterests(pageId = 1) {
+function fetchInterests(pageId:number = 1) {
   isLoading.value = true
   api
     .get(`/categories?page=${pageId}`, {
@@ -24,16 +24,16 @@ function fetchInterests(pageId = 1) {
         Authorization: `Bearer ${getToken()}`
       }
     })
-    .then((response) => {
+    .then((response:any) => {
       interests.value = response.data as Categories
 
       const matchingInterestIds = interests.value.data
-        .filter((interest) =>
+        .filter((interest:any) =>
           userSelectedInterests.value.some(
             (userSelectedInterest) => interest.id === userSelectedInterest
           )
         )
-        .map((selected) => selected.id)
+        .map((selected:{id:string}) => selected.id)
 
       selectedInterests.value = [...new Set([...selectedInterests.value, ...matchingInterestIds])]
     })
@@ -48,7 +48,7 @@ function fetchInterests(pageId = 1) {
     })
 }
 
-function getToken(): string {
+function getToken(): string|null {
   return useAuthStore().token
 }
 
@@ -122,7 +122,7 @@ function addInterests() {
     })
     .catch((error) => {
       console.error('Error adding interests:', error)
-      errorMessage.value = 'Failed to add interests. Please try again later.'
+      errorMessage.value = "Failed to add interests. Please try again later."
     })
     .finally(() => {
       isLoading.value = false
@@ -165,7 +165,7 @@ function fetchUserInterest() {
       }
     })
     .then((response) => {
-      userSelectedInterests.value = response.data.map((interest) => interest.id)
+      userSelectedInterests.value = response.data.map((interest:{id:string}) => interest.id)
     })
     .catch((error) => {
       console.error('Error fetching interests:', error)
