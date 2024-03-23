@@ -4,6 +4,7 @@ import axios from 'axios'
 import router from '../router'
 import { useAuthStore } from '@/stores/auth' // Assuming you have an Auth store
 import { Categories, Category } from '../common/Categories'
+import { api } from '@/common/Axios'
 
 const interests = ref([])
 const selectedInterests = ref([])
@@ -18,8 +19,8 @@ const userSelectedInterests = ref([])
 
 function fetchInterests(pageId = 1) {
   isLoading.value = true
-  axios
-    .get(`http://localhost:3000/categories?page=${pageId}`, {
+  api
+    .get(`/categories?page=${pageId}`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
@@ -109,8 +110,8 @@ function addInterests() {
   isLoading.value = true
   const data = JSON.stringify({ interests: selectedInterestIds })
 
-  axios
-    .put('http://localhost:3000/users/interests', data, {
+  api
+    .put('/users/interests', data, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json'
@@ -131,8 +132,8 @@ function addInterests() {
 
 function removeInterests(interestId: Category) {
   isLoading.value = true
-  axios
-    .delete(`http://localhost:3000/users/interests/${interestId.id}`, {
+  api
+    .delete(`/users/interests/${interestId.id}`, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json'
@@ -157,8 +158,8 @@ function fetchUserInterest() {
   isLoading.value = true
   const data = JSON.stringify({}) // No data needed in request body
 
-  axios
-    .get('http://localhost:3000/users/interests', {
+  api
+    .get('/users/interests', {
       headers: {
         Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json'

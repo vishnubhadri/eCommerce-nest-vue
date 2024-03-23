@@ -24,7 +24,7 @@ function signup() {
   // Using promise chaining
   api
     .post(
-      'http://localhost:3000/auth/signup',
+      '/auth/signup',
       {
         name: name.value,
         email: email.value,

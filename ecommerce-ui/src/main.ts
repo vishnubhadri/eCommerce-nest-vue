@@ -14,3 +14,5 @@ app.use(router)
 app.use(vuetify)
 
 app.mount('#app')
+
+console.log(import.meta.env) 

@@ -5,6 +5,7 @@ import router from '../router'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 import { Validation } from '../common/Validation'
+import { api } from '@/common/Axios'
 
 const email = defineModel('email')
 const password = defineModel('password')
@@ -28,9 +29,9 @@ async function login() {
   isLoading.value = true
   errorMessage.value = ''
 
-  axios
+  api
     .post(
-      'http://localhost:3000/auth/login',
+      '/auth/login',
       {
         email: email.value,
         password: password.value
